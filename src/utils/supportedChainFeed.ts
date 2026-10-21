@@ -1,5 +1,11 @@
 // Supported chains configuration with price feed options
 export const CHAIN_PRICE_FEED_OPTIONS: Record<number, { address: string; name: string }[]> = {
+  // Base Mainnet — standard Chainlink proxy feeds, confirmed with AggregatorV3 calls.
+  8453: [
+    { address: "0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70", name: "ETH / USD" },
+    { address: "0x64c911996D3c6aC71f9b455B1E8E7266BcbD848F", name: "BTC / USD" },
+    { address: "0x7e860098F58bBFC8648a4311b374B1D669a2bc6B", name: "USDC / USD" },
+  ],
   // Sepolia Testnet
   11155111: [
     { address: "0x694AA1769357215DE4FAC081bf1f309aDC325306", name: "ETH / USD" },

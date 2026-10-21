@@ -53,7 +53,7 @@ const getChainName = (chainId: number): string => {
     case 1: return 'Ethereum Mainnet';
     case 137: return 'Polygon';
     case 56: return 'BSC';
-    case 8453: return 'Base';
+    case 8453: return 'Base Mainnet';
     case 11155111: return 'Sepolia Testnet';
     default: return `Chain ${chainId}`;
   }
@@ -2646,7 +2646,7 @@ export default function PortfolioPage() {
                 The Karma Protocol contracts are not yet deployed on {getChainName(chainId || 1)}.
               </p>
               <p className="text-yellow-600 dark:text-yellow-400 mb-6">
-                You can test the protocol on Sepolia testnet (contracts are deployed there) or wait for mainnet deployment.
+                Switch to a network with a configured Karma factory, or wait until the factories are deployed and verified on this network.
               </p>
               <div className="flex gap-4 justify-center flex-wrap">
                 <Button
@@ -2660,15 +2660,18 @@ export default function PortfolioPage() {
                   variant="outline"
                   className="border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white"
                 >
-                  Create Pool (Testnet)
+                  Create Pool
                 </Button>
               </div>
               <div className="mt-4 p-4 bg-yellow-100 dark:bg-yellow-800/30 rounded-lg">
                 <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                  <strong>Available Networks:</strong> Sepolia Testnet (Chain ID: 11155111)
+                  <strong>Networks with configured factories:</strong>{" "}
+                  {Object.keys(KarmaPoolFactories)
+                    .map((id) => `${getChainName(Number(id))} (Chain ID: ${id})`)
+                    .join(", ") || "None yet"}
                 </p>
                 <p className="text-xs text-yellow-700 dark:text-yellow-300 mt-1">
-                  Switch to Sepolia testnet to interact with deployed contracts
+                  A network appears here after its factory is deployed and its address is added to the frontend configuration.
                 </p>
               </div>
             </Card>
@@ -2715,9 +2718,7 @@ export default function PortfolioPage() {
               </CardTitle>
               <p className="text-stone-600 dark:text-stone-400 mb-6">
                 {availablePools.length === 0
-                  ? (chainId === 11155111
-                    ? 'No prediction pools have been created on Sepolia testnet yet. Be the first to create one!'
-                    : 'No prediction pools found on this network. Try switching to a different network or check back later.')
+                  ? `No prediction pools have been created on ${getChainName(chainId)} yet. Be the first to create one!`
                   : 'You don\'t have any positions in prediction pools yet. Explore pools to start trading.'
                 }
               </p>

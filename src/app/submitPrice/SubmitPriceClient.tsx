@@ -602,15 +602,21 @@ export default function SubmitPriceClient() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/60 rounded-xl text-xs text-amber-800 dark:text-amber-300">
                   <div className="flex items-center gap-2">
                     <AlertTriangle size={18} className="shrink-0 text-amber-600" />
-                    <span>No Karma oracle instance found for this pool yet.</span>
+                    <span>
+                      {karmaFactoryAddress
+                        ? 'No Karma oracle instance found for this pool yet.'
+                        : `KarmaAdapterFactory is not configured for ${chain?.name ?? `chain ${currentChainId}`}, so an oracle cannot be deployed from this page yet.`}
+                    </span>
                   </div>
-                  <Button
-                    size="sm"
-                    onClick={() => setShowDeployDrawer(true)}
-                    className="bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-semibold shrink-0"
-                  >
-                    Deploy Karma for this Pool
-                  </Button>
+                  {karmaFactoryAddress && (
+                    <Button
+                      size="sm"
+                      onClick={() => setShowDeployDrawer(true)}
+                      className="bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-semibold shrink-0"
+                    >
+                      Deploy Karma for this Pool
+                    </Button>
+                  )}
                 </div>
               )}
             </div>
@@ -691,7 +697,7 @@ export default function SubmitPriceClient() {
 
             <Button
               onClick={handleDeployKarmaForPool}
-              disabled={isDeployPending || isDeployConfirming || !isConnected}
+              disabled={isDeployPending || isDeployConfirming || !isConnected || !karmaFactoryAddress}
               className="w-full bg-violet-600 hover:bg-violet-500 text-white rounded-xl py-2.5 font-semibold text-sm"
             >
               {isDeployPending

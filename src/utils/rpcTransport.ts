@@ -2,6 +2,10 @@ import { http, fallback, type Transport } from "viem";
 
 // Keyless public RPC lists per chain.
 const DEFAULT_RPC_URLS: Record<number, string[]> = {
+  8453: [
+    "https://mainnet.base.org",
+    "https://base-rpc.publicnode.com",
+  ],
   11155111: [
     "https://ethereum-sepolia-rpc.publicnode.com",
     "https://sepolia.gateway.tenderly.co",

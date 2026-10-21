@@ -58,13 +58,13 @@ Built with cutting-edge Web3 technologies, Karma Protocol delivers high-performa
 -  **Neutrality-Weighted Consensus**: Voting power is determined on-chain by `min(Bull, Bear)` holdings—one-sided speculators have zero influence
 -  **Exponential Time Decay**: Price observations decay smoothly over time, keeping the oracle responsive to fresh market conditions
 -  **Perpetual Market**: Continuous trading without expiration dates; enter and exit positions at any time
--  **Mainnet Wallet Support**: Ethereum Mainnet is available in wallet and explorer configuration
+-  **Mainnet Wallet Support**: Ethereum Mainnet and Base Mainnet are available in wallet and explorer configuration
 -  **Chainlink-Compatible Interface**: Seamless drop-in replacement for standard `AggregatorV3Interface` consumers
 -  **Client-Side IndexedDB Caching**: Fast and responsive offline-first portfolio and pool browsing
 
 ## Launch Configuration
 
-Ethereum Mainnet has no verified Karma oracle factory or pool factory configured in this repository. Pool creation is disabled when a required factory or supported price feed is missing. Add verified deployment addresses and feed configuration before enabling customer transactions on Mainnet.
+Ethereum Mainnet and Base Mainnet do not yet have verified Karma factory addresses configured in this repository. Base Mainnet Chainlink options are available, but pool creation and Karma-oracle deployment stay disabled until the required factories are deployed and their verified addresses are added. Add the deployment block as well so portfolio history can scan from the right point.
 
 ---
 

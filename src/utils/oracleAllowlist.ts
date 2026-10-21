@@ -8,14 +8,17 @@ import { ChainlinkOracleABI } from "./abi/ChainlinkOracle";
 // Deny always wins. An empty allowlist shows every oracle that is not denied.
 export const ALLOWED_ORACLES: Record<number, readonly Address[]> = {
   11155111: [],
+  8453: [],
 };
 
 export const DENIED_ORACLES: Record<number, readonly Address[]> = {
   11155111: [],
+  8453: [],
 };
 
 // Pools to hide even when their oracle is fine.
 export const DENIED_POOLS: Record<number, readonly Address[]> = {
+  8453: [],
   // Uses the ETH/USD price feed as its base token, so it can never be traded.
   11155111: ["0xED1fc758e807DcD9FDAAF52Ef756E709074ff242"],
 };

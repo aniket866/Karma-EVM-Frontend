@@ -486,11 +486,14 @@ export default function CreateKarmaPool() {
     }
   }, [isSigning, isSubmitting, isDeployingTx, deployData]);
 
-  const chainHasFactory = currentChainId ? Boolean(KarmaPoolFactories[currentChainId]) : false;
+  const hasPoolFactory = currentChainId ? Boolean(KarmaPoolFactories[currentChainId]) : false;
+  const hasChainlinkFactory = currentChainId ? Boolean(ChainlinkAdapterFactories[currentChainId]) : false;
+  const hasRequiredFactories = hasPoolFactory && hasChainlinkFactory;
   const hasSupportedFeeds = currentChainId ? SUPPORTED_CHAINS.includes(currentChainId) : false;
-  const isChainSupported = chainHasFactory && hasSupportedFeeds;
+  const isChainSupported = hasRequiredFactories && hasSupportedFeeds;
   const priceFeedOptions = currentChainId ? getPriceFeedOptions(currentChainId) : [];
   const currentChainConfig = getChainConfig(currentChainId);
+  const deploymentMissing = Boolean(currentChainConfig && hasSupportedFeeds && !hasRequiredFactories);
 
   const isProcessing = isSubmitting || isSigning || isDeployingTx;
 
@@ -520,19 +523,27 @@ export default function CreateKarmaPool() {
           <div className="flex flex-col items-center space-y-4">
                             <AlertCircle className="w-12 h-12 text-red-500" />
             <h2 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white">
-              {currentChainId === 1 ? "Ethereum Mainnet Deployment Unavailable" : "Unsupported Network"}
+              {deploymentMissing
+                ? `${currentChainConfig?.name} Deployment Not Ready`
+                : currentChainId === 1
+                ? "Ethereum Mainnet Deployment Unavailable"
+                : "Unsupported Network"}
             </h2>
             <p className="text-sm md:text-base text-gray-600 dark:text-gray-300">
-              {currentChainId === 1
+              {deploymentMissing
+                ? `Price feeds are configured for ${currentChainConfig?.name}, but its verified PredictionPoolFactory and ChainlinkAdapterFactory addresses have not been added to the frontend yet.`
+                : currentChainId === 1
                 ? "Mainnet wallet support is configured, but pool creation is disabled until verified deployment addresses and supported price feeds are configured."
                 : "Pool creation is available only on networks with a configured factory and supported price feeds."}
             </p>
             <div className="text-xs md:text-sm text-gray-500 space-y-1">
-              {currentChainId === 1 ? (
+              {deploymentMissing ? (
+                <p>Add both verified factory addresses to src/utils/addresses.ts after deployment.</p>
+              ) : currentChainId === 1 ? (
                 <p>Use Sepolia for the currently configured pool and price-feed setup.</p>
               ) : (
                 <p>
-                  Configured deployment network: {SUPPORTED_CHAINS.map((id) => getChainConfig(id)?.name ?? `Chain ${id}`).join(", ")}.
+                  Networks with configured price feeds: {SUPPORTED_CHAINS.map((id) => getChainConfig(id)?.name ?? `Chain ${id}`).join(", ")}.
                   {currentChainConfig ? ` Current chain: ${currentChainConfig.name}.` : ""}
                 </p>
               )}

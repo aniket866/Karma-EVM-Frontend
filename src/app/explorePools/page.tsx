@@ -35,6 +35,7 @@ const DENOMINATOR = 100_000;
 // ~24h of blocks, so this costs one call per coin. Lifetime volume from logs would cost ~200.
 const VOLUME_WINDOW_BLOCKS: Record<number, bigint> = {
   11155111: BigInt(7_200), // ~12s blocks
+  8453: BigInt(43_200), // ~2s blocks
 };
 
 const COIN_TRADE_EVENTS = [
